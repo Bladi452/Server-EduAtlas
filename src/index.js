@@ -1,33 +1,4 @@
-    //Require
-const express = require ('express');
+import app from './app'
 
-
-    //Initialization
-const app = express()
-
-app.use(express.json());
-
-    //Settings
-
-app.set('port', process.env.PORT || 4000);
-
-    //Middlewares
-
-
-
-    //Global Variables
-
-
-
-    //Routes
-
-
-
-    //Public
-
-
-    //Starting the server
-app.listen(app.get('port'), ()=>{
-    console.log('Server on port')
-})
-
+app.listen(3000)
+console.log('Server on port 3000')
