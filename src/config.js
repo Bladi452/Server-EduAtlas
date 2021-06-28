@@ -1,10 +1,10 @@
-import { config as dotenv } from 'dotenv'
+import { config as dotenv} from 'dotenv';
 
-dotenv()
+dotenv();
 
-export const config = {
-    host: process.env.DB_host,
-    user: process.env.DB_user,
-    password: "",
-    database: process.env.DB_database,
+export const config ={
+    host: process.env.DB_Host,
+    user: process.env.DB_USER,
+    password: '',
+    database:process.env.DB_DATABASE
 }
