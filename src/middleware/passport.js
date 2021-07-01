@@ -1,6 +1,5 @@
 const LocalStrategy = require('passport-local').Strategy;
 import passport from 'passport';
-import { async } from 'regenerator-runtime';
 
 import { connect } from "../database";
 import helpers from './helpers';
