@@ -1,9 +1,12 @@
 import { Router } from "express";
+import {addReq, getSchool, idSelect} from "../controllers/school"
 
 const router = Router();
 
-router.get('/school/:id')
+router.get('/school', getSchool)
 
-router.post('/school')
+router.get('/school/:id', idSelect )
 
-export default Router();
+router.post('/school/req', addReq)
+
+export default router
