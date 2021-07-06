@@ -1,8 +1,20 @@
 import { connect } from "../database";
 
-export const getChat = async (req, res) => {
+export const getChat = async (req, res) =>{
     const db = await connect()
-    const [rows] = await db.query('SELECT * FROM mensaje')
+    const [rows] = await db.query('SELECT * FROM sala_usuario WHERE Id_Usuario = ?', [
+        req.params.id
+    ])
+    console.log(rows)
+
+    res.json(rows)
+}
+
+export const getMessage = async (req, res) => {
+    const db = await connect()
+    const [rows] = await db.query('SELECT * FROM mensaje WHERE Id_sala = ?',[
+        req.params.id
+    ])
   console.log(rows)
     res.json(rows)
 }

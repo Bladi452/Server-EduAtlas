@@ -6,6 +6,6 @@ const router = Router();
 
 router.get('/document/:id', download);
 
-router.post('/document', uploadApp);
+router.post('/document/:id/:id_escu', uploadApp);
 
 export default router
