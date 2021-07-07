@@ -5,9 +5,11 @@ export const getChat = async (req, res) =>{
     const [rows] = await db.query('SELECT * FROM sala_usuario WHERE Id_Usuario = ?', [
         req.params.id
     ])
-    console.log(rows)
-
-    res.json(rows)
+    if(!rows.length > 0){
+        res.status(404).json({message: "No encontrado"})
+    } else{
+        return res.status(200).json(rows)
+    }
 }
 
 export const getMessage = async (req, res) => {
@@ -15,8 +17,12 @@ export const getMessage = async (req, res) => {
     const [rows] = await db.query('SELECT * FROM mensaje WHERE Id_sala = ?',[
         req.params.id
     ])
-  console.log(rows)
-    res.json(rows)
+    if(!rows.length > 0){
+        res.status(404).json({message: "No encontrado"})
+    } else{
+        return res.status(200).json(rows)
+    }
+
 }
 
 export const sendMessage = async (req, res) =>{
@@ -26,6 +32,10 @@ export const sendMessage = async (req, res) =>{
         req.body.id_Sala,
         req.body.id_Usuario,
         req.body.fecha
-    ])
-    res.send('Recibido')
+    ])    
+    if(!rows){
+        res.status(304).json({message: "No se envio"})
+    } else{
+        return res.status(200).json({message: "Mensaje enviado"})
+    }
 }

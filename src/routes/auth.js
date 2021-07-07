@@ -1,7 +1,9 @@
 import {Router} from 'express'
-import {validar, registrar} from "../controllers/auth"
+import {validar, registrar, isAuth} from "../controllers/auth"
 const router = Router();
 
 router.post('/auth/regis',registrar)
 router.post('/auth/login',validar)
+router.get('/auth/private', isAuth)
+
 export default router
