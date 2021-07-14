@@ -82,7 +82,7 @@ var uploadApp = /*#__PURE__*/function () {
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         _context2.next = 2;
-                        return db.query("INSERT INTO documentos (UrlDocs, Estado, Id_Escuelas ,Id_Usuario) VALUES (?,?,?,?)", [ruta, "null", req.params.id_escu, req.params.id]);
+                        return db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Id_Usuario) VALUES (?,?,?,?)", [ruta, "null", req.params.id_escu, req.params.id]);
 
                       case 2:
                         if (!err) {

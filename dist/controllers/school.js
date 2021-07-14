@@ -75,7 +75,7 @@ var idSelect = /*#__PURE__*/function () {
           case 2:
             db = _context2.sent;
             _context2.next = 5;
-            return db.query('SELECT * FROM escuelas WHERE Id_Escuelas = ?', [req.params.id]);
+            return db.query('SELECT * FROM escuelas WHERE Codigo_Escuelas = ?', [req.params.id]);
 
           case 5:
             _yield$db$query3 = _context2.sent;
@@ -112,7 +112,7 @@ var addReq = /*#__PURE__*/function () {
           case 2:
             db = _context3.sent;
             _context3.next = 5;
-            return db.query("INSERT INTO solicitud (Fecha, Estatus, Id_Escuelas, Id_Usuario, Id_Curso) VALUES (?,?,?,?,?) ", [req.body.Fecha, req.body.Estatus, req.body.Id_Escuelas, req.body.Id_Usuario, req.body.Id_Curso]);
+            return db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (?,?,?,?,?) ", [req.body.Fecha, req.body.Estatus, req.body.Codigo_Escuelas, req.body.Matricula, req.body.Id_Curso]);
 
           case 5:
             solicitud = _context3.sent;

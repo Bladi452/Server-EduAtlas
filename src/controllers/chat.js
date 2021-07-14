@@ -2,7 +2,7 @@ import { connect } from "../database";
 
 export const getChat = async (req, res) =>{
     const db = await connect()
-    const [rows] = await db.query('SELECT * FROM sala_usuario WHERE Id_Usuario = ?', [
+    const [rows] = await db.query('SELECT * FROM sala_usuario WHERE Matricula = ?', [
         req.params.id
     ])
     if(!rows.length > 0){
@@ -27,10 +27,10 @@ export const getMessage = async (req, res) => {
 
 export const sendMessage = async (req, res) =>{
     const db = await connect();
-  const rows =  await db.query("INSERT INTO mensaje (mensaje, id_Sala, id_Usuario, fecha) VALUES (?, ?, ?, ?)",[
+  const rows =  await db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, ?)",[
         req.body.mensaje,
         req.body.id_Sala,
-        req.body.id_Usuario,
+        req.body.Matricula,
         req.body.fecha
     ])
     if(!rows){

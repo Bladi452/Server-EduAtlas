@@ -9,7 +9,7 @@ export const getSchool = async (req, res) => {
 
 export const idSelect = async (req, res) =>{
     const db = await connect();
-    const [rows] = await db.query('SELECT * FROM escuelas WHERE Id_Escuelas = ?',[
+    const [rows] = await db.query('SELECT * FROM escuelas WHERE Codigo_Escuelas = ?',[
         req.params.id
     ]);
     console.log(rows)
@@ -18,10 +18,10 @@ export const idSelect = async (req, res) =>{
 
 export const addReq = async (req, res) =>{
     const db = await connect();
-    const solicitud = await db.query("INSERT INTO solicitud (Fecha, Estatus, Id_Escuelas, Id_Usuario, Id_Curso) VALUES (?,?,?,?,?) ",[
+    const solicitud = await db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (?,?,?,?,?) ",[
         req.body.Fecha,
         req.body.Estatus,
-        req.body.Id_escuelas,
+        req.body.Codigo_Escuelas,
         req.body.id_Usu,
         req.body.id_curso
     ])

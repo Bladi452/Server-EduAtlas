@@ -15,7 +15,7 @@ numero ++
 export const registrar = async (req, res) =>{
     const db = await connect()
     const pass = await encryptPassword(req.body.password)
-   const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Nivel, Id_Escuelas) VALUES (?,?,?,?,?,?,?)",[
+   const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Nivel, Codigo_Escuelas) VALUES (?,?,?,?,?,?,?)",[
         Matricula,
         req.body.Nombre,
         req.body.Apellidos,

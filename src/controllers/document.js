@@ -32,7 +32,7 @@ export const uploadApp = async (req, res) =>{
 
     const db = await connect()
     sampleFile.mv(uploadPath, async function (err) {
-       await db.query("INSERT INTO documentos (UrlDocs, Estado, Id_Escuelas ,Id_Usuario) VALUES (?,?,?,?)",[
+       await db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?)",[
           ruta,
           "null",
           req.params.id_escu,
