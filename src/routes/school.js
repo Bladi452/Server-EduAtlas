@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/school', getSchool)
 
-router.get('/school/:id', idSelect )
+router.get('/school/:id', idSelect)
 
 router.post('/school/req', addReq)
 

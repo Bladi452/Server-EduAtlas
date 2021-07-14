@@ -2,22 +2,35 @@ import {connect} from '../database'
 import {encryptPassword, matchPassword} from '../middleware/helpers'
 import jwt, { decode } from 'jsonwebtoken';
 
+let numero = 100
+let fecha = new Date()
+let Mat = `${fecha.getFullYear()} ${numero}`
+let  Matricula = parseInt(Mat)
+
+const aument = (()=>{
+numero ++
+})
+
+
 export const registrar = async (req, res) =>{
     const db = await connect()
     const pass = await encryptPassword(req.body.password)
-   const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, password,Fecha_Nacimiento, Nivel) VALUES (?,?,?,?,?,?,?)",[
-        req.body.Matricula,
+   const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Nivel, Id_Escuelas) VALUES (?,?,?,?,?,?,?)",[
+        Matricula,
         req.body.Nombre,
         req.body.Apellidos,
         req.body.Email,
         pass,
         req.body.date,
-        req.body.Nivel
+        req.body.Nivel,
+        null
     ])
     if(!rows){
         res.status(304).json({message: "No se guardo"})
     } else{
+        aument()
         return res.status(200).json({message: "Usuario guardado"})
+    
     }
     res.json(rows);
 }
@@ -29,7 +42,6 @@ export const validar = async (req, res, next) =>{
     const contra = req.body.password;
 
     const user = await db.query("SELECT * FROM usuario WHERE Matricula = ?",[Matricula])
-    
     
     if(user[0].length > 0){
         const validPassword = await matchPassword( contra, user[0][0].password)

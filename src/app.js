@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import ChatRoute from './routes/chat'
+import nave from './routes/navegacion'
 import auth from './routes/auth'
 import school from './routes/school'
 import document from './routes/document'
@@ -20,6 +21,7 @@ app.use(ChatRoute)
 app.use(auth)
 app.use(school)
 app.use(document)
+app.use(nave)
 
 app.use((_, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

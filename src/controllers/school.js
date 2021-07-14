@@ -12,7 +12,7 @@ export const idSelect = async (req, res) =>{
     const [rows] = await db.query('SELECT * FROM escuelas WHERE Id_Escuelas = ?',[
         req.params.id
     ]);
-    console.log(rows[0])
+    console.log(rows)
     res.json(rows)
 }
 
@@ -21,9 +21,13 @@ export const addReq = async (req, res) =>{
     const solicitud = await db.query("INSERT INTO solicitud (Fecha, Estatus, Id_Escuelas, Id_Usuario, Id_Curso) VALUES (?,?,?,?,?) ",[
         req.body.Fecha,
         req.body.Estatus,
-        req.body.Id_Escuelas,
-        req.body.Id_Usuario,
-        req.body.Id_Curso
+        req.body.Id_escuelas,
+        req.body.id_Usu,
+        req.body.id_curso
     ])
-    res.send('Se almaceno')
+    if(!solicitud){
+        res.status(304).json({message: "No se envio la solicitud"})
+    }else {
+        return res.status(200).json({message: "Se genero la solicitud"})
+    }
 }
