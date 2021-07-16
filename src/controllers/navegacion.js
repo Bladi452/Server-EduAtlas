@@ -10,6 +10,7 @@ export const navegacion = async (req, res) =>{
 
 export const navegacionGetSol = async (req, res) =>{
         const db = await connect()
-        const solicitud = await db.query("SELECT * FROM solicitud WHERE Matricula = ?", [req.params.id])
+        const solicitud = await db.query("SELECT * FROM solicitud WHERE Matricula = 2021100 ORDER BY Id_Solicitud DESC"
+        , [req.params.id])
         res.json(solicitud[0])
 }
