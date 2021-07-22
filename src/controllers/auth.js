@@ -2,26 +2,41 @@ import {connect} from '../database'
 import {encryptPassword, matchPassword} from '../middleware/helpers'
 import jwt, { decode } from 'jsonwebtoken';
 
+
+
+let num = 1012
+const date = new Date()
+const year = date.getFullYear()
 export const registrar = async (req, res) =>{
+    console.log(year)
 
-
+   let  matriculaS = `${year}${num}`
+   let  matricula = parseInt(matriculaS)
+console.log(matricula)
+   
     const db = await connect()
     const pass = await encryptPassword(req.body.password)
-   const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?,?)",[
-        aumentar(),
+  const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?,?)",[
+        matricula,
         req.body.Nombre,
         req.body.Apellidos,
         req.body.Email,
         pass,
         req.body.date,
         null
-    ], aumentar())
+    ])
     if(!rows){
         res.status(304).json({message: "No se guardo"})
+    console.log(matricula)
     } else{
+        num++
         return res.status(200).json({message: "Usuario guardado"})
+        
     }
-    res.json(rows);
+    console.log(matricula)
+        
+    res.end('estamos bien');
+
 }
 
 export const validar = async (req, res, next) =>{
