@@ -20,8 +20,7 @@ export const uploadApp = async (req, res) =>{
       return;
     }
   
-    console.log('req.files >>>', req.files); // eslint-disable-line
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    console.log('req.files >>>', req.files);
 
     sampleFile = req.files.sampleFile;
     console.log(sampleFile)
@@ -33,9 +32,9 @@ export const uploadApp = async (req, res) =>{
     const db = await connect()
     sampleFile.mv(uploadPath, async function (err) {
        await db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?)",[
-          ruta,
+          req.ruta,
           "null",
-          req.params.id_escu,
+          req.params.escu,
           req.params.id
        ])
        

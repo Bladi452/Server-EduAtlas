@@ -5,7 +5,7 @@ import jwt, { decode } from 'jsonwebtoken';
 
 
 
-export const conectar = async() =>{
+export const conectar = async(req, res) =>{
 
 const db = await connect()
 const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) SELECT 1, Matricula FROM usuario ORDER BY Matricula DESC LIMIT 1")
@@ -18,7 +18,7 @@ console.log(matricula)
 }
 }
 
-let num = 1012
+let num = 1015
 const date = new Date()
 const year = date.getFullYear()
 export const registrar = async (req, res) =>{
