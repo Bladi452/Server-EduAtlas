@@ -45,9 +45,8 @@ export const validar = async (req, res, next) =>{
     const Matricula = req.body.Matricula;
     const contra = req.body.password
 
-    const user = await db.query("SELECT * FROM usuario WHERE Matricula = ?",[Matricula])
-    console.log(contra)
-    console.log(user[0][0].Pass)
+    const user = await db.query("SELECT usuario.Matricula, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ? And cargo.Nivel < 1",[Matricula])
+
     if(user[0].length > 0){
         const validPassword = await matchPassword( contra, user[0][0].Pass)
         if(validPassword){
