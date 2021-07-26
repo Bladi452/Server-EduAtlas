@@ -4,6 +4,20 @@ import jwt, { decode } from 'jsonwebtoken';
 
 
 
+
+export const conectar = async() =>{
+
+const db = await connect()
+const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) SELECT 1, Matricula FROM usuario ORDER BY Matricula DESC LIMIT 1")
+if(!rows){
+    res.status(304).json({message: "No se guardo"})
+console.log(matricula)
+} else{
+    num++
+    return res.status(200).json({message: "Usuario guardado"})
+}
+}
+
 let num = 1012
 const date = new Date()
 const year = date.getFullYear()
@@ -33,6 +47,7 @@ console.log(matricula)
         return res.status(200).json({message: "Usuario guardado"})
         
     }
+
     console.log(matricula)
         
     res.end('estamos bien');
