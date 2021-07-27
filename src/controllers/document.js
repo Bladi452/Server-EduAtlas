@@ -13,8 +13,8 @@ export const uploadApp = async (req, res) =>{
     let sampleFile;
     let uploadPath;
     let ruta
- 
-    
+ console.log(req.body)
+   /* 
     if (!req.files || Object.keys(req.files).length === 0) {
       res.status(400).send('No files were uploaded.');
       return;
@@ -41,7 +41,8 @@ export const uploadApp = async (req, res) =>{
        if (err) {
         return res.status(500).send(err);
       }
- 
-      res.send('File uploaded to ' + uploadPath);
-    });
+ });
+      */
+      res.send('File uploaded to ');
+    
   }
