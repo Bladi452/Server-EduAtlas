@@ -7,8 +7,16 @@ const router = Router();
 
 router.get('/document/:id', download);
 
+//configurar en que carpeta se debe guardar
+const multerStorage = multer.diskStorage({
+  destination: (req,file, cb) => {
+    cb(null, '../controllers/upload' )
 
-const storage = multer.memoryStorage();
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
@@ -17,9 +25,15 @@ const fileFilter = (req, file, cb) => {
     cb('invalid image file!', false);
   }
 };
-const uploads = multer({ storage, fileFilter });
 
-router.post('/document/:id/:id_escu', uploads.single('docs'), uploadImg)
+//la vaina que sube la imagen
+const uploads = multer({ storage:multerStorage ,fileFilter });
+
+//.single es para decir que es un solo archivo, docs es el objeto donde viene todo
+router.post('/document/:id/:id_escu', uploads.single('docs'), uploadImg, function (req, res, next) {
+  console.log(req.files);
+  
+})
 
 
 

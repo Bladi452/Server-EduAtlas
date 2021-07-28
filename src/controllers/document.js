@@ -9,16 +9,18 @@ export const download = async(req, res) =>{
     const file = __dirname + pass[0][0].UrlDocs
     res.download(file)
 }
-
+//hasta yo quiero saber pero no se, la que esta comentada se ve mejor
 export const uploadImg = async (req, res) =>{
+  
   const db = await connect()
   await db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?)",[
     
-    req.file,
+    req.files[0],
     "null",
     req.params.escu,
     req.params.id
  ])
+ res.send('Insertado')
 }
 
 //export const uploadApp = async (req, res) =>{
