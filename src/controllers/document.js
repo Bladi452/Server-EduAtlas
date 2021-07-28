@@ -1,5 +1,7 @@
  import {connect} from '../database'
+ 
 
+ 
 export const download = async(req, res) =>{
     const db = await connect()
     const pass = await db.query("SELECT * FROM documentos WHERE Id_documentos = ?",[req.params.id])
@@ -8,12 +10,22 @@ export const download = async(req, res) =>{
     res.download(file)
 }
 
+export const uploadImg = async (req, res) =>{
+  const db = await connect()
+  await db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?)",[
+    
+    req.file,
+    "null",
+    req.params.escu,
+    req.params.id
+ ])
+}
 
-export const uploadApp = async (req, res) =>{
-    let sampleFile;
-    let uploadPath;
-    let ruta
- console.log(req.body)
+//export const uploadApp = async (req, res) =>{
+    //let sampleFile;
+    //let uploadPath;
+    //let ruta
+// console.log(req.body)
    /* 
     if (!req.files || Object.keys(req.files).length === 0) {
       res.status(400).send('No files were uploaded.');
@@ -43,6 +55,6 @@ export const uploadApp = async (req, res) =>{
       }
  });
       */
-      res.send('File uploaded to ');
+      //res.send('File uploaded to ');
     
-  }
+ // }
