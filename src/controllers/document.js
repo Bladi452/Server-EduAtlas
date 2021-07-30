@@ -11,6 +11,7 @@ export const download = async(req, res) =>{
 }
 //hasta yo quiero saber pero no se, la que esta comentada se ve mejor
 export const uploadImg = async (req, res) =>{
+
   let sampleFile;
     let uploadPath;
     let ruta
@@ -34,7 +35,7 @@ export const uploadImg = async (req, res) =>{
     sampleFile.mv(uploadPath, async function (err) {
        await db.query("INSERT INTO documentos (Nombre,UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?,?)",[
        
-       req.body.Nombre,
+       req.params.docu,
         uploadPath,
          "null",
          req.params.id_escu,
@@ -46,7 +47,5 @@ export const uploadImg = async (req, res) =>{
       }
  });
       
-      res.send('File uploaded to ');
-    
-  
+      res.send('File uploaded to '); 
 }

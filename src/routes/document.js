@@ -30,10 +30,7 @@ const fileFilter = (req, file, cb) => {
 const uploads = multer({ storage:multerStorage ,fileFilter });
 
 //.single es para decir que es un solo archivo, docs es el objeto donde viene todo
-router.post('/document/:id/:id_escu',  uploadImg, 
- 
-  
-)
+router.post('/document/:id/:id_escu/:docu',  uploadImg)
 
 
 
