@@ -11,24 +11,11 @@ export const download = async(req, res) =>{
 }
 //hasta yo quiero saber pero no se, la que esta comentada se ve mejor
 export const uploadImg = async (req, res) =>{
-  
-  const db = await connect()
-  await db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?)",[
-    
-    req.files[0],
-    "null",
-    req.params.escu,
-    req.params.id
- ])
- res.send('Insertado')
-}
+  let sampleFile;
+    let uploadPath;
+    let ruta
 
-//export const uploadApp = async (req, res) =>{
-    //let sampleFile;
-    //let uploadPath;
-    //let ruta
-// console.log(req.body)
-   /* 
+   
     if (!req.files || Object.keys(req.files).length === 0) {
       res.status(400).send('No files were uploaded.');
       return;
@@ -36,7 +23,7 @@ export const uploadImg = async (req, res) =>{
   
     console.log('req.files >>>', req.files);
 
-    sampleFile = req.files.sampleFile;
+    sampleFile = req.files.docs;
     console.log(sampleFile)
     ruta = '/upload/' + sampleFile.name
     uploadPath = __dirname + ruta;
@@ -45,18 +32,21 @@ export const uploadImg = async (req, res) =>{
 
     const db = await connect()
     sampleFile.mv(uploadPath, async function (err) {
-       await db.query("INSERT INTO documentos (UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?)",[
-          req.ruta,
-          "null",
-          req.params.escu,
-          req.params.id
-       ])
+       await db.query("INSERT INTO documentos (Nombre,UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?,?)",[
        
+       req.body.Nombre,
+        uploadPath,
+         "null",
+         req.params.id_escu,
+         req.params.id
+      ])
+      
        if (err) {
         return res.status(500).send(err);
       }
  });
-      */
-      //res.send('File uploaded to ');
+      
+      res.send('File uploaded to ');
     
- // }
+  
+}
