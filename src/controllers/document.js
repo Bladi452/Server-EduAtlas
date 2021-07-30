@@ -9,7 +9,20 @@ export const download = async(req, res) =>{
     const file = __dirname + pass[0][0].UrlDocs
     res.download(file)
 }
+
+export const getDocs = async (req, res) =>{
+  const db = await connect()
+  const [pass] = await db.query("SELECT * FROM documentos WHERE Id_documentos = ?",[req.params.Mat])
+if(!pass.length > 0){
+      res.status(404).json({message: "No encontrado"})
+  } else{
+      return res.status(200).json(rows)
+  }
+}
+
 //hasta yo quiero saber pero no se, la que esta comentada se ve mejor
+
+
 export const uploadImg = async (req, res) =>{
 
   let sampleFile;

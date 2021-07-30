@@ -1,11 +1,13 @@
 import { Router } from "express";
 
-import {uploadImg, download} from '../controllers/document'
+import {uploadImg, download, getDocs} from '../controllers/document'
 import multer from 'multer'
 
 const router = Router();
 
 router.get('/document/:id', download);
+
+router.get('/document/:mat', getDocs);
 
 //configurar en que carpeta se debe guardar
 const multerStorage = multer.diskStorage({
