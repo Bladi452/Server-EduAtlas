@@ -6,17 +6,20 @@ export const download = async(req, res) =>{
     const db = await connect()
     const pass = await db.query("SELECT * FROM documentos WHERE Id_documentos = ?",[req.params.id])
 
-    const file = __dirname + pass[0][0].UrlDocs
+    const file = __dirname + pass.UrlDocs
     res.download(file)
 }
 
 export const getDocs = async (req, res) =>{
+  console.log(req)
   const db = await connect()
-  const [pass] = await db.query("SELECT * FROM documentos WHERE Id_documentos = ?",[req.params.Mat])
+
+  const [pass] = await db.query("SELECT * FROM documentos WHERE Matricula = ?",[req.params.id])
+  
 if(!pass.length > 0){
       res.status(404).json({message: "No encontrado"})
   } else{
-      return res.status(200).json(rows)
+      return res.status(200).json(pass)
   }
 }
 

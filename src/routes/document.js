@@ -5,7 +5,7 @@ import multer from 'multer'
 
 const router = Router();
 
-router.get('/document/:id', download);
+router.get('/document/descarga/:id', download);
 
 router.get('/document/:mat', getDocs);
 
