@@ -1,13 +1,13 @@
  import {connect} from '../database'
- 
 
- 
 export const download = async(req, res) =>{
-    const db = await connect()
-    const pass = await db.query("SELECT * FROM documentos WHERE Id_documentos = ?",[req.params.id])
 
-    const file = __dirname + pass.UrlDocs
-    res.download(file)
+
+      const db = await connect()
+    const [pass] = await db.query("SELECT * FROM documentos WHERE Id_documentos = ?",[req.params.id])
+
+    const file = __dirname + pass[0].UrlDocs
+  res.download(file)
 }
 
 export const getDocs = async (req, res) =>{
@@ -51,7 +51,7 @@ export const uploadImg = async (req, res) =>{
        await db.query("INSERT INTO documentos (Nombre,UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?,?)",[
        
        req.params.docu,
-        uploadPath,
+        ruta,
          "null",
          req.params.id_escu,
          req.params.id
