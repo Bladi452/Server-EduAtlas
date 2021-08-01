@@ -11,7 +11,7 @@ export const download = async(req, res) =>{
 }
 
 export const getDocs = async (req, res) =>{
-  console.log(req)
+  
   const db = await connect()
 
   const [pass] = await db.query("SELECT * FROM documentos WHERE Matricula = ?",[req.params.id])
@@ -22,7 +22,6 @@ if(!pass.length > 0){
       return res.status(200).json(pass)
   }
 }
-
 //hasta yo quiero saber pero no se, la que esta comentada se ve mejor
 
 
