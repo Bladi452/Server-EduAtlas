@@ -18,8 +18,7 @@ export const idSelect = async (req, res) =>{
 
 export const addReq = async (req, res) =>{
     const db = await connect();
-    const solicitud = await db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (?,?,?,?,?) ",[
-        req.body.Fecha,
+    const solicitud = await db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (NOW(),?,?,?,?) ",[
         req.body.Estatus,
         req.body.Codigo_Escuelas,
         req.body.id_Usu,

@@ -27,11 +27,10 @@ export const getMessage = async (req, res) => {
 
 export const sendMessage = async (req, res) =>{
     const db = await connect();
-  const rows =  await db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, ?)",[
+  const rows =  await db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, NOW())",[
         req.body.mensaje,
         req.body.id_Sala,
-        req.body.Matricula,
-        req.body.fecha
+        req.body.Matricula
     ])
     if(!rows){
         res.status(304).json({message: "No se envio"})
