@@ -9,6 +9,8 @@ var _express = require("express");
 
 var _school = require("../controllers/school");
 
+var _auth = require("../controllers/auth");
+
 var router = (0, _express.Router)();
 router.get('/school', _school.getSchool);
 router.get('/school/:id', _school.idSelect);

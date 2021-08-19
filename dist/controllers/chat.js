@@ -37,16 +37,28 @@ var getChat = /*#__PURE__*/function () {
           case 2:
             db = _context.sent;
             _context.next = 5;
-            return db.query('SELECT * FROM sala_usuario WHERE Id_Usuario = ?', [req.params.id]);
+            return db.query('SELECT * FROM sala_usuario WHERE Matricula = ?', [req.params.id]);
 
           case 5:
             _yield$db$query = _context.sent;
             _yield$db$query2 = _slicedToArray(_yield$db$query, 1);
             rows = _yield$db$query2[0];
-            console.log(rows);
-            res.json(rows);
 
-          case 10:
+            if (!(!rows.length > 0)) {
+              _context.next = 12;
+              break;
+            }
+
+            res.status(404).json({
+              message: "No encontrado"
+            });
+            _context.next = 13;
+            break;
+
+          case 12:
+            return _context.abrupt("return", res.status(200).json(rows));
+
+          case 13:
           case "end":
             return _context.stop();
         }
@@ -81,10 +93,22 @@ var getMessage = /*#__PURE__*/function () {
             _yield$db$query3 = _context2.sent;
             _yield$db$query4 = _slicedToArray(_yield$db$query3, 1);
             rows = _yield$db$query4[0];
-            console.log(rows);
-            res.json(rows);
 
-          case 10:
+            if (!(!rows.length > 0)) {
+              _context2.next = 12;
+              break;
+            }
+
+            res.status(404).json({
+              message: "No encontrado"
+            });
+            _context2.next = 13;
+            break;
+
+          case 12:
+            return _context2.abrupt("return", res.status(200).json(rows));
+
+          case 13:
           case "end":
             return _context2.stop();
         }
@@ -101,7 +125,7 @@ exports.getMessage = getMessage;
 
 var sendMessage = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var db;
+    var db, rows;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -112,12 +136,28 @@ var sendMessage = /*#__PURE__*/function () {
           case 2:
             db = _context3.sent;
             _context3.next = 5;
-            return db.query("INSERT INTO mensaje (mensaje, id_Sala, id_Usuario, fecha) VALUES (?, ?, ?, ?)", [req.body.mensaje, req.body.id_Sala, req.body.id_Usuario, req.body.fecha]);
+            return db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, NOW())", [req.body.mensaje, req.body.id_Sala, req.body.Matricula]);
 
           case 5:
-            res.send('Recibido');
+            rows = _context3.sent;
 
-          case 6:
+            if (rows) {
+              _context3.next = 10;
+              break;
+            }
+
+            res.status(304).json({
+              message: "No se envio"
+            });
+            _context3.next = 11;
+            break;
+
+          case 10:
+            return _context3.abrupt("return", res.status(200).json({
+              message: "Mensaje enviado"
+            }));
+
+          case 11:
           case "end":
             return _context3.stop();
         }

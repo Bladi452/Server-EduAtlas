@@ -81,7 +81,7 @@ var idSelect = /*#__PURE__*/function () {
             _yield$db$query3 = _context2.sent;
             _yield$db$query4 = _slicedToArray(_yield$db$query3, 1);
             rows = _yield$db$query4[0];
-            console.log(rows[0]);
+            console.log(rows);
             res.json(rows);
 
           case 10:
@@ -112,13 +112,28 @@ var addReq = /*#__PURE__*/function () {
           case 2:
             db = _context3.sent;
             _context3.next = 5;
-            return db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (?,?,?,?,?) ", [req.body.Fecha, req.body.Estatus, req.body.Codigo_Escuelas, req.body.Matricula, req.body.Id_Curso]);
+            return db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (NOW(),?,?,?,?) ", [req.body.Estatus, req.body.Codigo_Escuelas, req.body.id_Usu, req.body.id_curso]);
 
           case 5:
             solicitud = _context3.sent;
-            res.send('Se almaceno');
 
-          case 7:
+            if (solicitud) {
+              _context3.next = 10;
+              break;
+            }
+
+            res.status(304).json({
+              message: "No se envio la solicitud"
+            });
+            _context3.next = 11;
+            break;
+
+          case 10:
+            return _context3.abrupt("return", res.status(200).json({
+              message: "Se genero la solicitud"
+            }));
+
+          case 11:
           case "end":
             return _context3.stop();
         }

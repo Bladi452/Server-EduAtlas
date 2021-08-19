@@ -7,11 +7,10 @@ exports["default"] = void 0;
 
 var _express = require("express");
 
-var _auth = require("../controllers/auth");
+var _navegacion = require("../controllers/navegacion");
 
 var router = (0, _express.Router)();
-router.post('/auth/conec/', _auth.conectar);
-router.post('/auth/regis', _auth.registrar);
-router.post('/auth/login', _auth.validar);
+router.get('/navegacion/:id', _navegacion.navegacion);
+router.get('/navegacionSel/:id', _navegacion.navegacionGetSol);
 var _default = router;
 exports["default"] = _default;
