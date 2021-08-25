@@ -2,9 +2,6 @@ import {connect} from '../database'
 import {encryptPassword, matchPassword} from '../middleware/helpers'
 import jwt, { decode } from 'jsonwebtoken';
 
-
-
-
 export const conectar = async(req, res) =>{
 
 const db = await connect()
@@ -18,7 +15,7 @@ console.log(matricula)
 }
 }
 
-let num = 1015
+let num = 1017
 const date = new Date()
 const year = date.getFullYear()
 export const registrar = async (req, res) =>{
