@@ -15,7 +15,7 @@ console.log(matricula)
 }
 }
 
-let num = 1018
+let num = 1020
 const date = new Date()
 const year = date.getFullYear()
 export const registrar = async (req, res) =>{
