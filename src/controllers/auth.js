@@ -15,7 +15,7 @@ console.log(matricula)
 }
 }
 
-let num = 1020
+let num = 1021
 const date = new Date()
 const year = date.getFullYear()
 export const registrar = async (req, res) =>{
@@ -41,7 +41,7 @@ console.log(matricula)
     console.log(matricula)
     } else{
         num++
-        return res.status(200).json({message: "Usuario guardado"})
+        return res.status(200).json({message: `Tu matricula es: ${matricula} Copiala o captura la pantalla`})
         
     }
 
