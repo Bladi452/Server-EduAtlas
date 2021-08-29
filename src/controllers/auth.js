@@ -5,30 +5,26 @@ import jwt, { decode } from 'jsonwebtoken';
 export const conectar = async(req, res) =>{
 
 const db = await connect()
-const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) SELECT 1, Matricula FROM usuario ORDER BY Matricula DESC LIMIT 1")
+const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)",[req.params.id_cargo, req.params.id])
 if(!rows){
     res.status(304).json({message: "No se guardo"})
-console.log(matricula)
 } else{
-    num++
     return res.status(200).json({message: "Usuario guardado"})
 }
 }
 
-let num = 1021
-const date = new Date()
-const year = date.getFullYear()
-export const registrar = async (req, res) =>{
-    console.log(year)
+export const getMat = async (req, res) => {
+    const db = await connect()
+   const [rows] = await db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;')
+  console.log(rows)
+    res.json(rows)
+}
 
-   let  matriculaS = `${year}${num}`
-   let  matricula = parseInt(matriculaS)
-console.log(matricula)
-   
+export const registrar = async (req, res) =>{
+
     const db = await connect()
     const pass = await encryptPassword(req.body.password)
-  const [rows] = await db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?,?)",[
-        matricula,
+  const [rows] = await db.query("INSERT INTO usuario (Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?)",[
         req.body.Nombre,
         req.body.Apellidos,
         req.body.Email,
@@ -38,11 +34,8 @@ console.log(matricula)
     ])
     if(!rows){
         res.status(304).json({message: "No se guardo"})
-    console.log(matricula)
     } else{
-        num++
-        return res.status(200).json({message: `Tu matricula es: ${matricula} Copiala o captura la pantalla`})
-        
+        return res.status(200).json({message: `Tu matricula es Copiala o captura la pantalla`})        
     }
 
     console.log(matricula)

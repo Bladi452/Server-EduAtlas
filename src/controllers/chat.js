@@ -2,7 +2,7 @@ import { connect } from "../database";
 
 export const getChat = async (req, res) =>{
     const db = await connect()
-    const [rows] = await db.query('SELECT sala_usuario.Id,sala.Fecha ,sala.id_Sala, sala.Nombre FROM sala_usuario INNER JOIN sala ON sala.id_Sala = (SELECT Id_Sala FROM sala_usuario WHERE Matricula = 20211017) LIMIT 1;;', [
+    const [rows] = await db.query('SELECT sala_usuario.Id,sala.Fecha ,sala.id_Sala, sala.Nombre FROM sala_usuario INNER JOIN sala ON sala.id_Sala = (SELECT Id_Sala FROM sala_usuario WHERE Matricula = ?) LIMIT 1;', [
         req.params.id
     ])
     if(!rows.length > 0){
