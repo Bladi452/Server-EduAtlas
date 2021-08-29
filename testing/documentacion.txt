@@ -1,0 +1,129 @@
+EndPoints:
+http://localhost:3000/school
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Generales
+
+Parametros Soportados:
+
+
+EndPoints:
+http://localhost:3000/auth/getmat
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Generales
+
+Parametros Soportados:
+
+EndPoints:
+http://localhost:3000/navegacion/${id}
+
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Matricula: 20211098
+
+Parametros Soportados:
+
+EndPoints:
+http://localhost:3000/school/${id}
+
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Codigo_Escuelas: 20051
+
+Parametros Soportados:
+
+
+EndPoints:
+http://localhost:3000/school/req
+Metodos soportados:
+POST
+
+DATOS A INGRESAR:
+
+{
+     Fecha: new Date(),
+     Estatus: 'null',
+     Codigo_Escuelas : 20051,
+     id_Usu : 20211098,
+     id_curso : '1'
+   }
+
+
+Parametros Soportados:
+
+
+
+EndPoints:
+http://localhost:3000/chat/message/${id}
+Metodos soportados:
+    GET
+DATOS A INGRESAR:
+    Id_sala: 4
+
+Parametros Soportados:
+
+
+
+EndPoints:
+http://localhost:3000/chat/${id}
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Matricula: 20211098
+
+Parametros Soportados:
+
+EndPoints:
+http://localhost:3000/chat
+Metodos soportados:
+POST
+
+DATOS A INGRESAR:
+
+{
+    mensaje: newMessage[0].text,
+    Matricula: newMessage[0].user._id,
+    id_Sala: route.params.Id_sala_User
+} 
+
+Parametros Soportados:
+
+EndPoints:
+http://localhost:3000/navegacionSel/${id}
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Matricula: 20211098
+
+Parametros Soportados:
+
+EndPoints:
+http://localhost:3000/document/${id}
+Metodos soportados:
+GET
+
+DATOS A INGRESAR:
+Matricula: 20211098
+
+Parametros Soportados:
+
+EndPoints:
+http://localhost:3000/auth/conec/${newData}/1
+Metodos soportados:
+POST
+
+DATOS A INGRESAR:
+newData: 20211098
+
+Parametros Soportados:
