@@ -8,6 +8,8 @@ Generales
 
 Parametros Soportados:
 
+Return:
+
 
 EndPoints:
 http://localhost:3000/auth/getmat
@@ -18,6 +20,9 @@ DATOS A INGRESAR:
 Generales
 
 Parametros Soportados:
+
+Return:
+
 
 EndPoints:
 http://localhost:3000/navegacion/${id}
@@ -41,6 +46,8 @@ Codigo_Escuelas: 20051
 
 Parametros Soportados:
 
+Return:
+
 
 EndPoints:
 http://localhost:3000/school/req
@@ -60,6 +67,7 @@ DATOS A INGRESAR:
 
 Parametros Soportados:
 
+Return:
 
 
 EndPoints:
@@ -71,6 +79,7 @@ DATOS A INGRESAR:
 
 Parametros Soportados:
 
+Return:
 
 
 EndPoints:
@@ -82,6 +91,9 @@ DATOS A INGRESAR:
 Matricula: 20211098
 
 Parametros Soportados:
+
+Return:
+
 
 EndPoints:
 http://localhost:3000/chat
@@ -98,6 +110,9 @@ DATOS A INGRESAR:
 
 Parametros Soportados:
 
+Return:
+
+
 EndPoints:
 http://localhost:3000/navegacionSel/${id}
 Metodos soportados:
@@ -107,6 +122,8 @@ DATOS A INGRESAR:
 Matricula: 20211098
 
 Parametros Soportados:
+
+Return:
 
 EndPoints:
 http://localhost:3000/document/${id}
@@ -118,6 +135,8 @@ Matricula: 20211098
 
 Parametros Soportados:
 
+Return:
+
 EndPoints:
 http://localhost:3000/auth/conec/${newData}/1
 Metodos soportados:
@@ -127,3 +146,6 @@ DATOS A INGRESAR:
 newData: 20211098
 
 Parametros Soportados:
+
+
+Return

@@ -37,7 +37,7 @@ var getChat = /*#__PURE__*/function () {
           case 2:
             db = _context.sent;
             _context.next = 5;
-            return db.query('SELECT * FROM sala_usuario WHERE Matricula = ?', [req.params.id]);
+            return db.query('SELECT sala_usuario.Id,sala.Fecha ,sala.id_Sala, sala.Nombre FROM sala_usuario INNER JOIN sala ON sala.id_Sala = (SELECT Id_Sala FROM sala_usuario WHERE Matricula = ?) LIMIT 1;', [req.params.id]);
 
           case 5:
             _yield$db$query = _context.sent;
@@ -87,7 +87,7 @@ var getMessage = /*#__PURE__*/function () {
           case 2:
             db = _context2.sent;
             _context2.next = 5;
-            return db.query('SELECT * FROM mensaje WHERE Id_sala = ?', [req.params.id]);
+            return db.query('SELECT mensaje.mensaje,mensaje.id ,mensaje.Matricula, mensaje.id_Sala, mensaje.fecha , CONCAT(usuario.Nombre, usuario.Apellido) AS NomCom FROM `usuario` INNER JOIN mensaje ON usuario.Matricula = mensaje.Matricula WHERE id_Sala = 1 ORDER BY `mensaje`.`id` DESC;', [req.params.id]);
 
           case 5:
             _yield$db$query3 = _context2.sent;
@@ -95,20 +95,21 @@ var getMessage = /*#__PURE__*/function () {
             rows = _yield$db$query4[0];
 
             if (!(!rows.length > 0)) {
-              _context2.next = 12;
+              _context2.next = 13;
               break;
             }
 
+            console.log(rows);
             res.status(404).json({
               message: "No encontrado"
             });
-            _context2.next = 13;
+            _context2.next = 14;
             break;
 
-          case 12:
+          case 13:
             return _context2.abrupt("return", res.status(200).json(rows));
 
-          case 13:
+          case 14:
           case "end":
             return _context2.stop();
         }

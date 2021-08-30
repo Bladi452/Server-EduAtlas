@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validar = exports.registrar = exports.conectar = void 0;
+exports.validar = exports.registrar = exports.getMat = exports.conectar = void 0;
 
 var _database = require("../database");
 
@@ -47,7 +47,7 @@ var conectar = /*#__PURE__*/function () {
           case 2:
             db = _context.sent;
             _context.next = 5;
-            return db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) SELECT 1, Matricula FROM usuario ORDER BY Matricula DESC LIMIT 1");
+            return db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)", [req.params.id_cargo, req.params.id]);
 
           case 5:
             _yield$db$query = _context.sent;
@@ -55,24 +55,22 @@ var conectar = /*#__PURE__*/function () {
             rows = _yield$db$query2[0];
 
             if (rows) {
-              _context.next = 13;
+              _context.next = 12;
               break;
             }
 
             res.status(304).json({
               message: "No se guardo"
             });
-            console.log(matricula);
-            _context.next = 15;
+            _context.next = 13;
             break;
 
-          case 13:
-            num++;
+          case 12:
             return _context.abrupt("return", res.status(200).json({
               message: "Usuario guardado"
             }));
 
-          case 15:
+          case 13:
           case "end":
             return _context.stop();
         }
@@ -86,63 +84,31 @@ var conectar = /*#__PURE__*/function () {
 }();
 
 exports.conectar = conectar;
-var num = 1015;
-var date = new Date();
-var year = date.getFullYear();
 
-var registrar = /*#__PURE__*/function () {
+var getMat = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var matriculaS, matricula, db, pass, _yield$db$query3, _yield$db$query4, rows;
+    var db, _yield$db$query3, _yield$db$query4, rows;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log(year);
-            matriculaS = "".concat(year).concat(num);
-            matricula = parseInt(matriculaS);
-            console.log(matricula);
-            _context2.next = 6;
+            _context2.next = 2;
             return (0, _database.connect)();
 
-          case 6:
+          case 2:
             db = _context2.sent;
-            _context2.next = 9;
-            return (0, _helpers.encryptPassword)(req.body.password);
+            _context2.next = 5;
+            return db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;');
 
-          case 9:
-            pass = _context2.sent;
-            _context2.next = 12;
-            return db.query("INSERT INTO usuario (Matricula, Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?,?)", [matricula, req.body.Nombre, req.body.Apellidos, req.body.Email, pass, req.body.date, null]);
-
-          case 12:
+          case 5:
             _yield$db$query3 = _context2.sent;
             _yield$db$query4 = _slicedToArray(_yield$db$query3, 1);
             rows = _yield$db$query4[0];
+            console.log(rows);
+            res.json(rows);
 
-            if (rows) {
-              _context2.next = 20;
-              break;
-            }
-
-            res.status(304).json({
-              message: "No se guardo"
-            });
-            console.log(matricula);
-            _context2.next = 22;
-            break;
-
-          case 20:
-            num++;
-            return _context2.abrupt("return", res.status(200).json({
-              message: "Usuario guardado"
-            }));
-
-          case 22:
-            console.log(matricula);
-            res.end('estamos bien');
-
-          case 24:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -150,16 +116,17 @@ var registrar = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function registrar(_x3, _x4) {
+  return function getMat(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-exports.registrar = registrar;
+exports.getMat = getMat;
 
-var validar = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res, next) {
-    var db, Matricula, contra, user, validPassword, token;
+var registrar = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+    var db, pass, _yield$db$query5, _yield$db$query6, rows;
+
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -169,24 +136,84 @@ var validar = /*#__PURE__*/function () {
 
           case 2:
             db = _context3.sent;
-            Matricula = req.body.Matricula;
-            contra = req.body.password;
-            _context3.next = 7;
-            return db.query("SELECT usuario.Matricula, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ? And cargo.Nivel = 107", [Matricula]);
+            _context3.next = 5;
+            return (0, _helpers.encryptPassword)(req.body.password);
 
-          case 7:
-            user = _context3.sent;
+          case 5:
+            pass = _context3.sent;
+            _context3.next = 8;
+            return db.query("INSERT INTO usuario (Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?)", [req.body.Nombre, req.body.Apellidos, req.body.Email, pass, req.body.date, null]);
 
-            if (!(user[0].length > 0)) {
+          case 8:
+            _yield$db$query5 = _context3.sent;
+            _yield$db$query6 = _slicedToArray(_yield$db$query5, 1);
+            rows = _yield$db$query6[0];
+
+            if (rows) {
               _context3.next = 15;
               break;
             }
 
-            _context3.next = 11;
+            res.status(304).json({
+              message: "No se guardo"
+            });
+            _context3.next = 16;
+            break;
+
+          case 15:
+            return _context3.abrupt("return", res.status(200).json({
+              message: "Tu matricula es Copiala o captura la pantalla"
+            }));
+
+          case 16:
+            console.log(matricula);
+            res.end('estamos bien');
+
+          case 18:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function registrar(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.registrar = registrar;
+
+var validar = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
+    var db, Matricula, contra, user, validPassword, token;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return (0, _database.connect)();
+
+          case 2:
+            db = _context4.sent;
+            Matricula = req.body.Matricula;
+            contra = req.body.password;
+            _context4.next = 7;
+            return db.query("SELECT usuario.Matricula, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ? And cargo.Nivel = 107", [Matricula]);
+
+          case 7:
+            user = _context4.sent;
+
+            if (!(user[0].length > 0)) {
+              _context4.next = 15;
+              break;
+            }
+
+            _context4.next = 11;
             return (0, _helpers.matchPassword)(contra, user[0][0].Pass);
 
           case 11:
-            validPassword = _context3.sent;
+            validPassword = _context4.sent;
 
             if (validPassword) {
               token = _jsonwebtoken["default"].sign({
@@ -203,24 +230,24 @@ var validar = /*#__PURE__*/function () {
               });
             }
 
-            _context3.next = 16;
+            _context4.next = 16;
             break;
 
           case 15:
-            return _context3.abrupt("return", res.status(404).json({
+            return _context4.abrupt("return", res.status(404).json({
               message: "Usuario no encontrado"
             }));
 
           case 16:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4);
   }));
 
-  return function validar(_x5, _x6, _x7) {
-    return _ref3.apply(this, arguments);
+  return function validar(_x7, _x8, _x9) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
