@@ -7,7 +7,7 @@ import auth from './routes/auth'
 import school from './routes/school'
 import document from './routes/document'
 import fileupload from 'express-fileupload'
-
+import solicitud from './routes/solicitud';
 
 
 const app = express();
@@ -22,6 +22,8 @@ app.use(auth)
 app.use(school)
 app.use(document)
 app.use(nave)
+app.use(solicitud)
+
 
 app.use((_, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

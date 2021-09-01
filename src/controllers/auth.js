@@ -50,13 +50,13 @@ export const validar = async (req, res, next) =>{
     const Matricula = req.body.Matricula;
     const contra = req.body.password
 
-    const user = await db.query("SELECT usuario.Matricula, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ? And cargo.Nivel = 107",[Matricula])
+    const user = await db.query("SELECT usuario.Matricula, usuario.Codigo_Escuelas, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ?",[Matricula])
 
     if(user[0].length > 0){
         const validPassword = await matchPassword( contra, user[0][0].Pass)
         if(validPassword){
             const token = jwt.sign({ Matricula: req.body.Matricula }, 'secret', { expiresIn: '1h' });
-            res.status(200).json({message: "Usuario y contraseña validado"})
+            res.status(200).json({message: user[0]})
         }else{
           res.status(502).json({message:"La contraseña es incorrecta"})
         }
