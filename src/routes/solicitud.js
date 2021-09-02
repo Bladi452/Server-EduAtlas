@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {getSolid, getAcept,getDenega } from "../controllers/solicitud"
+import {getSolid, getAcept, getDenega } from "../controllers/solicitud"
 
 const router = Router();
 
