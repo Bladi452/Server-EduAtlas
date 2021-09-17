@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -23,7 +25,7 @@ var _document = _interopRequireDefault(require("./routes/document"));
 
 var _expressFileupload = _interopRequireDefault(require("express-fileupload"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _solicitud = _interopRequireDefault(require("./routes/solicitud"));
 
 var app = (0, _express["default"])();
 app.use((0, _cors["default"])());
@@ -35,6 +37,7 @@ app.use(_auth["default"]);
 app.use(_school["default"]);
 app.use(_document["default"]);
 app.use(_navegacion["default"]);
+app.use(_solicitud["default"]);
 app.use(function (_, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');

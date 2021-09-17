@@ -13,6 +13,8 @@ export const getChat = async (req, res) =>{
 }
 
 export const getMessage = async (req, res) => {
+
+try {
     const db = await connect()
     const [rows] = await db.query('SELECT mensaje.mensaje,mensaje.id ,mensaje.Matricula, mensaje.id_Sala, mensaje.fecha , CONCAT(usuario.Nombre, usuario.Apellido) AS NomCom FROM `usuario` INNER JOIN mensaje ON usuario.Matricula = mensaje.Matricula WHERE id_Sala = 1 ORDER BY `mensaje`.`id` DESC;'
 
@@ -24,20 +26,29 @@ export const getMessage = async (req, res) => {
         res.status(404).json({message: "No encontrado"})
     } else{
         return res.status(200).json(rows)
-    }
+    }    
+} catch (error) {
+    console.log(error)
+}
+
 
 }
 
 export const sendMessage = async (req, res) =>{
-    const db = await connect();
-  const rows =  await db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, NOW())",[
-        req.body.mensaje,
-        req.body.id_Sala,
-        req.body.Matricula
-    ])
-    if(!rows){
-        res.status(304).json({message: "No se envio"})
-    } else{
-        return res.status(200).json({message: "Mensaje enviado"})
+    try {
+        const db = await connect();
+        const rows =  await db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, NOW())",[
+              req.body.mensaje,
+              req.body.id_Sala,
+              req.body.Matricula
+          ])
+          if(!rows){
+              res.status(304).json({message: "No se envio"})
+          } else{
+              return res.status(200).json({message: "Mensaje enviado"})
+          }    
+    } catch (error) {
+        console.log(error)
     }
+    
 }

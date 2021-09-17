@@ -3,9 +3,9 @@ import {validar, registrar, conectar, getMat} from "../controllers/auth"
 
 const router = Router();
 
-router.post('/auth/conec/:id/:id_cargo',conectar)
-router.post('/auth/regis',registrar)
-router.post('/auth/login',validar)
-router.get('/auth/getmat',getMat)
+router.post('/server-edu/auth/conec/:id/:id_cargo',conectar)
+router.post('/server-edu/auth/regis',registrar)
+router.post('/server-edu/auth/login',validar)
+router.get('/server-edu/auth/getmat',getMat)
 
 export default router

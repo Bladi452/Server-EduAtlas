@@ -3,6 +3,11 @@ import {encryptPassword, matchPassword} from '../middleware/helpers'
 import jwt, { decode } from 'jsonwebtoken';
 
 export const conectar = async(req, res) =>{
+    try {
+    
+    } catch (error) {
+        console.log(error)
+    }
 
 const db = await connect()
 const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)",[req.params.id_cargo, req.params.id])
@@ -14,14 +19,20 @@ if(!rows){
 }
 
 export const getMat = async (req, res) => {
-    const db = await connect()
-   const [rows] = await db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;')
-  console.log(rows)
-    res.json(rows)
+    try {
+
+        const db = await connect()
+        const [rows] = await db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;')
+       console.log(rows)
+         res.json(rows)
+         
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const registrar = async (req, res) =>{
-
+try {
     const db = await connect()
     const pass = await encryptPassword(req.body.password)
   const [rows] = await db.query("INSERT INTO usuario (Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?)",[
@@ -41,26 +52,38 @@ export const registrar = async (req, res) =>{
     console.log(matricula)
         
     res.end('estamos bien');
+    
+} catch (error) {
+    console.log(error)
+}
+
 
 }
 
 export const validar = async (req, res, next) =>{
-    const db = await connect()
     
-    const Matricula = req.body.Matricula;
-    const contra = req.body.password
-
-    const user = await db.query("SELECT usuario.Matricula, usuario.Codigo_Escuelas, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ?",[Matricula])
-
-    if(user[0].length > 0){
-        const validPassword = await matchPassword( contra, user[0][0].Pass)
-        if(validPassword){
-            const token = jwt.sign({ Matricula: req.body.Matricula }, 'secret', { expiresIn: '1h' });
-            res.status(200).json({message: user[0]})
+    try {
+        const db = await connect()
+    
+        const Matricula = req.body.Matricula;
+        const contra = req.body.password
+    
+        const user = await db.query("SELECT usuario.Matricula, usuario.Codigo_Escuelas, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ?",[Matricula])
+    
+        if(user[0].length > 0){
+            const validPassword = await matchPassword( contra, user[0][0].Pass)
+            if(validPassword){
+                const token = jwt.sign({ Matricula: req.body.Matricula }, 'secret', { expiresIn: '1h' });
+                res.status(200).json({message: user[0]})
+            }else{
+              res.status(502).json({message:"La contraseña es incorrecta"})
+            }
         }else{
-          res.status(502).json({message:"La contraseña es incorrecta"})
-        }
-    }else{
-        return res.status(404).json({message: "Usuario no encontrado"})
+            return res.status(404).json({message: "Usuario no encontrado"})
+        }    
+    } catch (error) {
+        console.log(error)
     }
+
+
 }

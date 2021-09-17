@@ -7,11 +7,11 @@ exports["default"] = void 0;
 
 var _express = require("express");
 
-var _chat = require("../controllers/chat");
+var _solicitud = require("../controllers/solicitud");
 
 var router = (0, _express.Router)();
-router.get('/server-edu/chat/:id', _chat.getChat);
-router.get('/server-edu/chat/message/:id', _chat.getMessage);
-router.post('/server-edu/chat', _chat.sendMessage);
+router.get('/server-edu/solicitudes/:id', _solicitud.getSolid);
+router.put('/server-edu/apro/:id', _solicitud.getAcept);
+router.put('/server-edu/dene/:id', _solicitud.getDenega);
 var _default = router;
 exports["default"] = _default;

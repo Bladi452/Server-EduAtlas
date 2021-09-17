@@ -4,10 +4,10 @@ import {isAuth} from "../controllers/auth"
 
 const router = Router();
 
-router.get('/school', getSchool)
+router.get('/server-edu/school', getSchool)
 
-router.get('/school/:id', idSelect)
+router.get('/server-edu/school/:id', idSelect)
 
-router.post('/school/req', addReq)
+router.post('/server-edu/school/req', addReq)
 
 export default router

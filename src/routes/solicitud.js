@@ -3,10 +3,10 @@ import {getSolid, getAcept, getDenega } from "../controllers/solicitud"
 
 const router = Router();
 
-router.get('/solicitudes/:id', getSolid)
+router.get('/server-edu/solicitudes/:id', getSolid)
 
-router.put('/apro/:id', getAcept)
+router.put('/server-edu/apro/:id', getAcept)
 
-router.put('/dene/:id', getDenega)
+router.put('/server-edu/dene/:id', getDenega)
 
 export default router

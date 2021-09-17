@@ -5,11 +5,11 @@ import {uploadImg, download, getDocs} from '../controllers/document'
 
 const router = Router();
 
-router.get('/document/descarga/:id', download);
+router.get('/server-edu/document/descarga/:id', download);
 
-router.get('/document/:id', getDocs);
+router.get('/server-edu/document/:id', getDocs);
 
-router.post('/document/:id/:id_escu/:docu',  uploadImg) 
+router.post('/server-edu/document/:id/:id_escu/:docu',  uploadImg) 
 
 
 export default router
