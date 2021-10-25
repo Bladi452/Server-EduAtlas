@@ -9,26 +9,27 @@ export const download = async(req, res) =>{
   res.download(file)
     
   } catch (error) {
-      console.log(error)
+    res.status(404).json({message: error})
   }
 
 }
 
 export const getDocs = async (req, res) =>{
-  try {
-    const db = await connect()
 
+  const db = await connect()
+  try {
     const [pass] = await db.query("SELECT * FROM documentos WHERE Matricula = ?",[req.params.id])
     
   if(!pass.length > 0){
         res.status(404).json({message: "No encontrado"})
-    } else{
-        return res.status(200).json(pass)
-    }    
+    db.end()
+      } else{
+       res.status(200).json(pass)
+       db.end()
+      }    
   } catch (error) {
-      console.log(error)
-  }
-
+    res.status(400).json({message: error}) }
+    db.end()
 }
 //hasta yo quiero saber pero no se, la que esta comentada se ve mejor
 
@@ -37,6 +38,8 @@ export const uploadImg = async (req, res) =>{
   let sampleFile;
   let uploadPath;
   let ruta
+
+  const db = await connect()
 
   try {
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -53,7 +56,6 @@ export const uploadImg = async (req, res) =>{
  
      // Use the mv() method to place the file somewhere on your server
 
-    const db = await connect()
     sampleFile.mv(uploadPath, async function (err) {
        await db.query("INSERT INTO documentos (Nombre,UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?,?)",[
        
@@ -65,16 +67,16 @@ export const uploadImg = async (req, res) =>{
       ])
       
        if (err) {
-        return res.status(500).send(err);
+        res.status(500).send(err);
+        db.end();
       }
  });
       
       res.send('File uploaded to '); 
-    
+      db.end();
   } catch (error) {
-      console.log(error)
+    res.status(400).json({message: error})
+    db.end();
   }
-
- 
    
 }

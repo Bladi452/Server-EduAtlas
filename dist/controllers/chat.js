@@ -28,34 +28,41 @@ var getChat = /*#__PURE__*/function () {
 
           case 2:
             db = _context.sent;
-            _context.next = 5;
+            _context.prev = 3;
+            _context.next = 6;
             return db.query('SELECT sala_usuario.Id,sala.Fecha ,sala.id_Sala, sala.Nombre FROM sala_usuario INNER JOIN sala ON sala.id_Sala = (SELECT Id_Sala FROM sala_usuario WHERE Matricula = ?) LIMIT 1;', [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query = _context.sent;
             _yield$db$query2 = (0, _slicedToArray2["default"])(_yield$db$query, 1);
             rows = _yield$db$query2[0];
 
-            if (!(!rows.length > 0)) {
-              _context.next = 12;
-              break;
+            if (!rows.length > 0) {
+              res.status(404).json({
+                message: "No encontrado"
+              });
+            } else {
+              res.status(200).json(rows);
+              db.end();
             }
 
-            res.status(404).json({
-              message: "No encontrado"
-            });
-            _context.next = 13;
+            _context.next = 16;
             break;
 
           case 12:
-            return _context.abrupt("return", res.status(200).json(rows));
+            _context.prev = 12;
+            _context.t0 = _context["catch"](3);
+            res.status(404).json({
+              message: "No funciono"
+            });
+            db.end();
 
-          case 13:
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[3, 12]]);
   }));
 
   return function getChat(_x, _x2) {
@@ -78,35 +85,41 @@ var getMessage = /*#__PURE__*/function () {
 
           case 2:
             db = _context2.sent;
-            _context2.next = 5;
+            _context2.prev = 3;
+            _context2.next = 6;
             return db.query('SELECT mensaje.mensaje,mensaje.id ,mensaje.Matricula, mensaje.id_Sala, mensaje.fecha , CONCAT(usuario.Nombre, usuario.Apellido) AS NomCom FROM `usuario` INNER JOIN mensaje ON usuario.Matricula = mensaje.Matricula WHERE id_Sala = 1 ORDER BY `mensaje`.`id` DESC;', [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query3 = _context2.sent;
             _yield$db$query4 = (0, _slicedToArray2["default"])(_yield$db$query3, 1);
             rows = _yield$db$query4[0];
 
-            if (!(!rows.length > 0)) {
-              _context2.next = 13;
-              break;
+            if (!rows.length > 0) {
+              console.log(rows);
+              res.status(404).json({
+                message: "No encontrado"
+              });
+              db.end();
+            } else {
+              res.status(200).json(rows);
+              db.end();
             }
 
-            console.log(rows);
-            res.status(404).json({
-              message: "No encontrado"
-            });
-            _context2.next = 14;
+            _context2.next = 16;
             break;
 
-          case 13:
-            return _context2.abrupt("return", res.status(200).json(rows));
+          case 12:
+            _context2.prev = 12;
+            _context2.t0 = _context2["catch"](3);
+            console.log(_context2.t0);
+            db.end();
 
-          case 14:
+          case 16:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[3, 12]]);
   }));
 
   return function getMessage(_x3, _x4) {
@@ -128,34 +141,42 @@ var sendMessage = /*#__PURE__*/function () {
 
           case 2:
             db = _context3.sent;
-            _context3.next = 5;
+            _context3.prev = 3;
+            _context3.next = 6;
             return db.query("INSERT INTO mensaje (mensaje, id_Sala, Matricula, fecha) VALUES (?, ?, ?, NOW())", [req.body.mensaje, req.body.id_Sala, req.body.Matricula]);
 
-          case 5:
+          case 6:
             rows = _context3.sent;
 
-            if (rows) {
-              _context3.next = 10;
-              break;
+            if (!rows) {
+              res.status(304).json({
+                message: "No se envio"
+              });
+              db.end();
+            } else {
+              res.status(200).json({
+                message: "Mensaje enviado"
+              });
+              db.end();
             }
 
-            res.status(304).json({
-              message: "No se envio"
-            });
-            _context3.next = 11;
+            _context3.next = 14;
             break;
 
           case 10:
-            return _context3.abrupt("return", res.status(200).json({
-              message: "Mensaje enviado"
-            }));
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](3);
+            res.status(400).json({
+              message: "No se envio"
+            });
+            db.end();
 
-          case 11:
+          case 14:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[3, 10]]);
   }));
 
   return function sendMessage(_x5, _x6) {

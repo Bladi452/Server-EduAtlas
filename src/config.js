@@ -1,5 +1,5 @@
 export const config ={
-    host: "localhost",
+    host: "localhost",    
     user: "root",
     password: '',
     database: "edutec"

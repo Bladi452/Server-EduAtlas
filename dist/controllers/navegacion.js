@@ -25,19 +25,31 @@ var navegacion = /*#__PURE__*/function () {
 
           case 2:
             db = _context.sent;
-            _context.next = 5;
+            _context.prev = 3;
+            _context.next = 6;
             return db.query("SELECT * FROM usuario WHERE Matricula = ?", [req.params.id]);
 
-          case 5:
+          case 6:
             user = _context.sent;
             res.json(user[0]);
+            db.end();
+            _context.next = 15;
+            break;
 
-          case 7:
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context["catch"](3);
+            res.status(400).json({
+              message: _context.t0
+            });
+            db.end();
+
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[3, 11]]);
   }));
 
   return function navegacion(_x, _x2) {
@@ -59,19 +71,31 @@ var navegacionGetSol = /*#__PURE__*/function () {
 
           case 2:
             db = _context2.sent;
-            _context2.next = 5;
+            _context2.prev = 3;
+            _context2.next = 6;
             return db.query("SELECT * FROM solicitud WHERE Matricula = ? ORDER BY Id_Solicitud DESC", [req.params.id]);
 
-          case 5:
+          case 6:
             solicitud = _context2.sent;
             res.json(solicitud[0]);
+            db.end();
+            _context2.next = 15;
+            break;
 
-          case 7:
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2["catch"](3);
+            res.status(400).json({
+              message: _context2.t0
+            });
+            db.end();
+
+          case 15:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[3, 11]]);
   }));
 
   return function navegacionGetSol(_x3, _x4) {

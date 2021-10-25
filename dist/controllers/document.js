@@ -23,27 +23,37 @@ var download = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
+            _context.prev = 0;
+            _context.next = 3;
             return (0, _database.connect)();
 
-          case 2:
+          case 3:
             db = _context.sent;
-            _context.next = 5;
+            _context.next = 6;
             return db.query("SELECT * FROM documentos WHERE Id_documentos = ?", [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query = _context.sent;
             _yield$db$query2 = (0, _slicedToArray2["default"])(_yield$db$query, 1);
             pass = _yield$db$query2[0];
             file = __dirname + pass[0].UrlDocs;
             res.download(file);
+            _context.next = 16;
+            break;
 
-          case 10:
+          case 13:
+            _context.prev = 13;
+            _context.t0 = _context["catch"](0);
+            res.status(404).json({
+              message: _context.t0
+            });
+
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[0, 13]]);
   }));
 
   return function download(_x, _x2) {
@@ -66,34 +76,44 @@ var getDocs = /*#__PURE__*/function () {
 
           case 2:
             db = _context2.sent;
-            _context2.next = 5;
+            _context2.prev = 3;
+            _context2.next = 6;
             return db.query("SELECT * FROM documentos WHERE Matricula = ?", [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query3 = _context2.sent;
             _yield$db$query4 = (0, _slicedToArray2["default"])(_yield$db$query3, 1);
             pass = _yield$db$query4[0];
 
-            if (!(!pass.length > 0)) {
-              _context2.next = 12;
-              break;
+            if (!pass.length > 0) {
+              res.status(404).json({
+                message: "No encontrado"
+              });
+              db.end();
+            } else {
+              res.status(200).json(pass);
+              db.end();
             }
 
-            res.status(404).json({
-              message: "No encontrado"
-            });
-            _context2.next = 13;
+            _context2.next = 15;
             break;
 
           case 12:
-            return _context2.abrupt("return", res.status(200).json(pass));
+            _context2.prev = 12;
+            _context2.t0 = _context2["catch"](3);
+            res.status(400).json({
+              message: _context2.t0
+            });
 
-          case 13:
+          case 15:
+            db.end();
+
+          case 16:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[3, 12]]);
   }));
 
   return function getDocs(_x3, _x4) {
@@ -111,26 +131,28 @@ var uploadImg = /*#__PURE__*/function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
+            _context4.next = 2;
+            return (0, _database.connect)();
+
+          case 2:
+            db = _context4.sent;
+            _context4.prev = 3;
+
             if (!(!req.files || Object.keys(req.files).length === 0)) {
-              _context4.next = 3;
+              _context4.next = 7;
               break;
             }
 
             res.status(400).send('No files were uploaded.');
             return _context4.abrupt("return");
 
-          case 3:
+          case 7:
             console.log('req.files >>>', req.files);
             sampleFile = req.files.docs;
             console.log(sampleFile);
             ruta = '/upload/' + sampleFile.name;
             uploadPath = __dirname + ruta; // Use the mv() method to place the file somewhere on your server
 
-            _context4.next = 10;
-            return (0, _database.connect)();
-
-          case 10:
-            db = _context4.sent;
             sampleFile.mv(uploadPath, /*#__PURE__*/function () {
               var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(err) {
                 return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -141,14 +163,12 @@ var uploadImg = /*#__PURE__*/function () {
                         return db.query("INSERT INTO documentos (Nombre,UrlDocs, Estado, Codigo_Escuelas ,Matricula) VALUES (?,?,?,?,?)", [req.params.docu, ruta, "null", req.params.id_escu, req.params.id]);
 
                       case 2:
-                        if (!err) {
-                          _context3.next = 4;
-                          break;
+                        if (err) {
+                          res.status(500).send(err);
+                          db.end();
                         }
 
-                        return _context3.abrupt("return", res.status(500).send(err));
-
-                      case 4:
+                      case 3:
                       case "end":
                         return _context3.stop();
                     }
@@ -161,13 +181,24 @@ var uploadImg = /*#__PURE__*/function () {
               };
             }());
             res.send('File uploaded to ');
+            db.end();
+            _context4.next = 21;
+            break;
 
-          case 13:
+          case 17:
+            _context4.prev = 17;
+            _context4.t0 = _context4["catch"](3);
+            res.status(400).json({
+              message: _context4.t0
+            });
+            db.end();
+
+          case 21:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4);
+    }, _callee4, null, [[3, 17]]);
   }));
 
   return function uploadImg(_x5, _x6) {

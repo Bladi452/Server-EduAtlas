@@ -28,34 +28,42 @@ var getSolid = /*#__PURE__*/function () {
 
           case 2:
             db = _context.sent;
-            _context.next = 5;
+            _context.prev = 3;
+            _context.next = 6;
             return db.query('SELECT solicitud.Id_Solicitud, solicitud.Codigo_Escuelas ,solicitud.Fecha, solicitud.Estatus, usuario.Matricula, curso.Grado, escuelas.Nombre FROM solicitud INNER JOIN curso ON solicitud.Id_Curso = curso.ID_Curso INNER JOIN usuario ON usuario.Matricula = solicitud.Matricula INNER JOIN escuelas ON solicitud.Codigo_Escuelas = escuelas.Codigo_Escuelas WHERE solicitud.Codigo_Escuelas = ? AND solicitud.Estatus = "null"', [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query = _context.sent;
             _yield$db$query2 = (0, _slicedToArray2["default"])(_yield$db$query, 1);
             pass = _yield$db$query2[0];
 
-            if (!(!pass.length > 0)) {
-              _context.next = 12;
-              break;
+            if (!pass.length > 0) {
+              res.status(404).json({
+                message: "No encontrado"
+              });
+              db.end();
+            } else {
+              res.status(200).json(pass);
+              db.end();
             }
 
-            res.status(404).json({
-              message: "No encontrado"
-            });
-            _context.next = 13;
+            _context.next = 16;
             break;
 
           case 12:
-            return _context.abrupt("return", res.status(200).json(pass));
+            _context.prev = 12;
+            _context.t0 = _context["catch"](3);
+            res.status(400).json({
+              message: _context.t0
+            });
+            db.end();
 
-          case 13:
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[3, 12]]);
   }));
 
   return function getSolid(_x, _x2) {
@@ -67,7 +75,7 @@ exports.getSolid = getSolid;
 
 var updateTask = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-    var connection;
+    var db;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -76,19 +84,31 @@ var updateTask = /*#__PURE__*/function () {
             return (0, _database.connect)();
 
           case 2:
-            connection = _context2.sent;
-            _context2.next = 5;
-            return connection.query("UPDATE tasks SET ? WHERE id = ?", [req.body, req.params.id]);
-
-          case 5:
-            res.sendStatus(204);
+            db = _context2.sent;
+            _context2.prev = 3;
+            _context2.next = 6;
+            return db.query("UPDATE tasks SET ? WHERE id = ?", [req.body, req.params.id]);
 
           case 6:
+            res.sendStatus(204);
+            db.end();
+            _context2.next = 14;
+            break;
+
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2["catch"](3);
+            res.status(400).json({
+              message: _context2.t0
+            });
+            db.end();
+
+          case 14:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[3, 10]]);
   }));
 
   return function updateTask(_x3, _x4) {
@@ -110,34 +130,42 @@ var getAcept = /*#__PURE__*/function () {
 
           case 2:
             db = _context3.sent;
-            _context3.next = 5;
+            _context3.prev = 3;
+            _context3.next = 6;
             return db.query("UPDATE `solicitud` SET `Estatus` = 'Aprobado' WHERE `solicitud`.`Id_Solicitud` = ?;", [req.params.id]);
 
-          case 5:
+          case 6:
             pass = _context3.sent;
 
-            if (!(!pass.length > 0)) {
-              _context3.next = 10;
-              break;
+            if (!pass.length > 0) {
+              res.status(404).json({
+                message: "No encontrado"
+              });
+              db.end();
+            } else {
+              res.status(200).json({
+                message: "Estas son las Solicitudes"
+              });
+              db.end();
             }
 
-            res.status(404).json({
-              message: "No encontrado"
-            });
-            _context3.next = 11;
+            _context3.next = 14;
             break;
 
           case 10:
-            return _context3.abrupt("return", res.status(200).json({
-              message: "Estas son las Solicitudes"
-            }));
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](3);
+            res.status(400).json({
+              message: _context3.t0
+            });
+            db.end();
 
-          case 11:
+          case 14:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[3, 10]]);
   }));
 
   return function getAcept(_x5, _x6) {
@@ -160,34 +188,49 @@ var getDenega = /*#__PURE__*/function () {
 
           case 2:
             db = _context4.sent;
-            _context4.next = 5;
+            _context4.prev = 3;
+            _context4.next = 6;
             return db.query("UPDATE `solicitud` SET `Estatus` = 'Denegado' WHERE `solicitud`.`Id_Solicitud` = ?;", [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query3 = _context4.sent;
             _yield$db$query4 = (0, _slicedToArray2["default"])(_yield$db$query3, 1);
             pass = _yield$db$query4[0];
 
             if (!(!pass.length > 0)) {
-              _context4.next = 12;
+              _context4.next = 14;
               break;
             }
 
             res.status(404).json({
               message: "No encontrado"
             });
-            _context4.next = 13;
+            db.end();
+            _context4.next = 16;
             break;
 
-          case 12:
+          case 14:
+            db.end();
             return _context4.abrupt("return", res.status(200).json(pass));
 
-          case 13:
+          case 16:
+            _context4.next = 22;
+            break;
+
+          case 18:
+            _context4.prev = 18;
+            _context4.t0 = _context4["catch"](3);
+            res.status(400).json({
+              message: _context4.t0
+            });
+            db.end();
+
+          case 22:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4);
+    }, _callee4, null, [[3, 18]]);
   }));
 
   return function getDenega(_x7, _x8) {

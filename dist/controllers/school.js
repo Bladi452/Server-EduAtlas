@@ -28,22 +28,35 @@ var getSchool = /*#__PURE__*/function () {
 
           case 2:
             db = _context.sent;
-            _context.next = 5;
+            _context.prev = 3;
+            _context.next = 6;
             return db.query('SELECT * FROM escuelas');
 
-          case 5:
+          case 6:
             _yield$db$query = _context.sent;
             _yield$db$query2 = (0, _slicedToArray2["default"])(_yield$db$query, 1);
             rows = _yield$db$query2[0];
-            console.log(rows);
             res.json(rows);
+            db.end();
+            _context.next = 16;
+            break;
 
-          case 10:
+          case 13:
+            _context.prev = 13;
+            _context.t0 = _context["catch"](3);
+            res.status(404).json({
+              message: _context.t0
+            });
+
+          case 16:
+            db.end();
+
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[3, 13]]);
   }));
 
   return function getSchool(_x, _x2) {
@@ -66,22 +79,34 @@ var idSelect = /*#__PURE__*/function () {
 
           case 2:
             db = _context2.sent;
-            _context2.next = 5;
+            _context2.prev = 3;
+            _context2.next = 6;
             return db.query('SELECT * FROM escuelas WHERE Codigo_Escuelas = ?', [req.params.id]);
 
-          case 5:
+          case 6:
             _yield$db$query3 = _context2.sent;
             _yield$db$query4 = (0, _slicedToArray2["default"])(_yield$db$query3, 1);
             rows = _yield$db$query4[0];
             console.log(rows);
             res.json(rows);
+            db.end();
+            _context2.next = 18;
+            break;
 
-          case 10:
+          case 14:
+            _context2.prev = 14;
+            _context2.t0 = _context2["catch"](3);
+            res.status(400).json({
+              message: _context2.t0
+            });
+            db.end();
+
+          case 18:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[3, 14]]);
   }));
 
   return function idSelect(_x3, _x4) {
@@ -103,34 +128,49 @@ var addReq = /*#__PURE__*/function () {
 
           case 2:
             db = _context3.sent;
-            _context3.next = 5;
+            _context3.prev = 3;
+            _context3.next = 6;
             return db.query("INSERT INTO solicitud (Fecha, Estatus, Codigo_Escuelas, Matricula, Id_Curso) VALUES (NOW(),?,?,?,?) ", [req.body.Estatus, req.body.Codigo_Escuelas, req.body.id_Usu, req.body.id_curso]);
 
-          case 5:
+          case 6:
             solicitud = _context3.sent;
 
             if (solicitud) {
-              _context3.next = 10;
+              _context3.next = 12;
               break;
             }
 
             res.status(304).json({
               message: "No se envio la solicitud"
             });
-            _context3.next = 11;
+            db.end();
+            _context3.next = 14;
             break;
 
-          case 10:
+          case 12:
+            db.end();
             return _context3.abrupt("return", res.status(200).json({
               message: "Se genero la solicitud"
             }));
 
-          case 11:
+          case 14:
+            _context3.next = 20;
+            break;
+
+          case 16:
+            _context3.prev = 16;
+            _context3.t0 = _context3["catch"](3);
+            res.status(400).json({
+              message: _context3.t0
+            });
+            db.end();
+
+          case 20:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[3, 16]]);
   }));
 
   return function addReq(_x5, _x6) {

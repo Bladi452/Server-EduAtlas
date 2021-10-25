@@ -3,37 +3,43 @@ import {encryptPassword, matchPassword} from '../middleware/helpers'
 import jwt, { decode } from 'jsonwebtoken';
 
 export const conectar = async(req, res) =>{
+    const db = await connect()
+
     try {
-    
+        const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)",[req.params.id_cargo, req.params.id])
+        if(!rows){
+            res.status(304).json({message: "No se guardo"})
+            db.end();
+        } else{
+             res.status(200).json({message: "Usuario guardado"})
+             db.end();
+            }    
     } catch (error) {
         console.log(error)
+        db.end()
     }
 
-const db = await connect()
-const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)",[req.params.id_cargo, req.params.id])
-if(!rows){
-    res.status(304).json({message: "No se guardo"})
-} else{
-    return res.status(200).json({message: "Usuario guardado"})
-}
+
 }
 
 export const getMat = async (req, res) => {
-    try {
 
-        const db = await connect()
+    const db = await connect()
+    try {
         const [rows] = await db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;')
        console.log(rows)
          res.json(rows)
-         
+db.end()         
     } catch (error) {
         console.log(error)
+        db.end();
     }
 }
 
 export const registrar = async (req, res) =>{
-try {
     const db = await connect()
+
+    try {
     const pass = await encryptPassword(req.body.password)
   const [rows] = await db.query("INSERT INTO usuario (Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?)",[
         req.body.Nombre,
@@ -45,26 +51,26 @@ try {
     ])
     if(!rows){
         res.status(304).json({message: "No se guardo"})
-    } else{
-        return res.status(200).json({message: `Tu matricula es Copiala o captura la pantalla`})        
+        db.end()
+    }else{
+        res.status(200).json({message: `Tu matricula es Copiala o captura la pantalla`})
+        db.end();
     }
-
-    console.log(matricula)
-        
     res.end('estamos bien');
     
 } catch (error) {
-    console.log(error)
+    res.status(404).json({message:error})
+    db.end()
+
 }
 
 
 }
 
 export const validar = async (req, res, next) =>{
-    
-    try {
-        const db = await connect()
-    
+    const db = await connect()
+
+    try {    
         const Matricula = req.body.Matricula;
         const contra = req.body.password
     
@@ -75,14 +81,18 @@ export const validar = async (req, res, next) =>{
             if(validPassword){
                 const token = jwt.sign({ Matricula: req.body.Matricula }, 'secret', { expiresIn: '1h' });
                 res.status(200).json({message: user[0]})
+                db.end();
             }else{
               res.status(502).json({message:"La contraseña es incorrecta"})
+              db.end();
             }
         }else{
-            return res.status(404).json({message: "Usuario no encontrado"})
-        }    
+            res.status(404).json({message: "Usuario no encontrado"})
+            db.end();
+        }
     } catch (error) {
-        console.log(error)
+        res.status(400).json({message: error})
+        db.end();
     }
 
 
