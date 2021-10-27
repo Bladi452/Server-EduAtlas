@@ -1,3 +1,3 @@
 import app from './app'
 
-app.listen(300)
+app.listen(3000)

@@ -29,6 +29,27 @@ db.end()
 
 }
 
+export const idschool = async (req, res) =>{
+    const db = await connect();
+    console.log(req.params.id)
+    try {
+
+    const [rows] = await db.query('SELECT * FROM usuario WHERE Codigo_Escuelas = ?',[
+        req.params.id
+    ]);
+    
+
+    console.log(rows.length)
+    res.json(rows.length)
+db.end()    
+} catch (error) {
+    console.log(error)
+   res.status(400).json({message: error})
+db.end()
+}
+
+}
+
 export const addReq = async (req, res) =>{
     const db = await connect();
     try {
