@@ -115,14 +115,12 @@ export const validar = async (req, res, next) =>{
                 message: 'Contraseña incorrecta'
             })
         }
-        const token = jwt.sign({
-            Matricula: user[0].Matricula,   
-            Codigo_Escuelas: user[0].Codigo_Escuelas,
-            Nivel: user[0].Nivel
-        }, process.env.SEED, {expiresIn: process.env.CADUCIDAD_TOKEN})
+      
         res.json({
             ok: true,
-            token
+            message: 'Usuario validado',
+            user: user[0]
+                                                
         })
         
     }
