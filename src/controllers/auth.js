@@ -1,23 +1,40 @@
 import {connect} from '../database'
 import {encryptPassword, matchPassword} from '../middleware/helpers'
-import jwt, { decode } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+
+
 
 export const conectar = async(req, res) =>{
     const db = await connect()
 
     try {
         const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)",[req.params.id_cargo, req.params.id])
+      
         if(!rows){
-            res.status(304).json({message: "No se guardo"})
-            db.end();
+            db.end()
+            return res.status(404).json({
+                ok: false,
+                message: 'No se pudo conectar'  
+            })
+        
         } else{
-             res.status(200).json({message: "Usuario guardado"})
-             db.end();
+            db.end()
+            return res.status(200).json({
+                ok: true,
+                message: 'Se conecto correctamente'
+            })
+             
             }    
     } catch (error) {
-        console.log(error)
         db.end()
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            message: 'Error inesperado' 
+        })
+       
     }
+     
 
 
 }
@@ -27,6 +44,7 @@ export const getMat = async (req, res) => {
     const db = await connect()
     try {
         const [rows] = await db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;')
+   
        console.log(rows)
          res.json(rows)
 db.end()         
@@ -49,23 +67,31 @@ export const registrar = async (req, res) =>{
         req.body.date,
         null
     ])
-    if(!rows){
-        res.status(304).json({message: "No se guardo"})
-        db.end()
-    }else{
-        res.status(200).json({message: `Tu matricula es Copiala o captura la pantalla`})
-        db.end();
-    }
-    res.end('estamos bien');
     
-} catch (error) {
-    res.status(404).json({message:error})
-    db.end()
+    if(!rows){
+        return res.status(404).json({
+            ok: false,
+            message: 'No se pudo registrar'
+        
+        })
+    } else{
+        return res.status(200).json({
+            ok: true,
+            message: 'Se registro correctamente'
+        })
+    }               
+    } catch (error) {   console.log(error)
+        return res.status(500).json({
+            ok: false,  
+            message: 'Error inesperado'
+        })  }   finally {           
+            db.end()
+        }
 
 }
 
 
-}
+
 
 export const validar = async (req, res, next) =>{
     const db = await connect()
@@ -75,25 +101,40 @@ export const validar = async (req, res, next) =>{
         const contra = req.body.password
     
         const user = await db.query("SELECT usuario.Matricula, usuario.Codigo_Escuelas, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ?",[Matricula])
-    
-        if(user[0].length > 0){
-            const validPassword = await matchPassword( contra, user[0][0].Pass)
-            if(validPassword){
-                const token = jwt.sign({ Matricula: req.body.Matricula }, 'secret', { expiresIn: '1h' });
-                res.status(200).json({message: user[0]})
-                db.end();
-            }else{
-              res.status(502).json({message:"La contraseña es incorrecta"})
-              db.end();
-            }
-        }else{
-            res.status(404).json({message: "Usuario no encontrado"})
-            db.end();
+        console.log(user)   
+        if(!user){
+            return res.status(404).json({
+                ok: false,
+                message: 'No se encontro el usuario'
+            })
         }
-    } catch (error) {
-        res.status(400).json({message: error})
-        db.end();
+        const match = await matchPassword(contra, user[0].Pass)
+        if(!match){
+            return res.status(404).json({
+                ok: false,
+                message: 'Contraseña incorrecta'
+            })
+        }
+        const token = jwt.sign({
+            Matricula: user[0].Matricula,   
+            Codigo_Escuelas: user[0].Codigo_Escuelas,
+            Nivel: user[0].Nivel
+        }, process.env.SEED, {expiresIn: process.env.CADUCIDAD_TOKEN})
+        res.json({
+            ok: true,
+            token
+        })
+        
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            message: 'Error inesperado'
+        })
     }
 
-
+    finally {        
+        db.end()
+    }
 }

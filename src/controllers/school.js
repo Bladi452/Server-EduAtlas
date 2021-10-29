@@ -5,9 +5,12 @@ export const getSchool = async (req, res) => {
     try {
 
    const [rows] = await db.query('SELECT * FROM escuelas')
+
     res.json(rows)    
-    db.end()
+        
+    
 } catch (error) {
+    console.log(error)
     res.status(404).json({message: error})}
     db.end()
 }
@@ -19,15 +22,19 @@ export const idSelect = async (req, res) =>{
     const [rows] = await db.query('SELECT * FROM escuelas WHERE Codigo_Escuelas = ?',[
         req.params.id
     ]);
+   ;
+
     console.log(rows)
     res.json(rows)
-db.end()    
+   
 } catch (error) {
-    res.status(400).json({message: error})
+    console.log(error)
+    res.status(404).json({message: error})}
+  
 db.end()
 }
 
-}
+
 
 export const idschool = async (req, res) =>{
     const db = await connect();
@@ -41,14 +48,16 @@ export const idschool = async (req, res) =>{
 
     console.log(rows.length)
     res.json(rows.length)
-db.end()    
+   
 } catch (error) {
+
     console.log(error)
-   res.status(400).json({message: error})
+    res.status(404).json({message: error})}
+ 
 db.end()
 }
 
-}
+
 
 export const addReq = async (req, res) =>{
     const db = await connect();
@@ -60,17 +69,23 @@ export const addReq = async (req, res) =>{
             req.body.id_Usu,
             req.body.id_curso
         ])
+      
+     
+
+
+   
         if(!solicitud){
-            res.status(304).json({message: "No se envio la solicitud"})
-            db.end();
+            res.status(404).json({message: 'No se pudo enviar la solicitud'})
+           
+            
         }else {
-            db.end();
-            return res.status(200).json({message: "Se genero la solicitud"})
+            res.status(200).json({message: "Solicitud enviada"})
+        
+           
         }    
     } catch (error) {
-        res.status(400).json({message: error})
- db.end();
-    }
-
-
+        console.log(error)
+        res.status(404).json({message: error})}
+    
+    db.end()
 }

@@ -7,12 +7,15 @@ export const idEvents = async (req, res) =>{
     const [rows] = await db.query('SELECT * FROM eventos WHERE Codigo_Escuelas = ?',[
         req.params.id
     ]);
-    console.log(rows)
-    res.json(rows)
+    res.json(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: 'Error al obtener los eventos',
+            error
+        });
+    }
 db.end()    
-} catch (error) {
-    res.status(400).json({message: error})
-db.end()
-}
+        
 
 }
