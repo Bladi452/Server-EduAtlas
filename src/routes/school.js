@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {addReq, getSchool, idSelect, idschool} from "../controllers/school"
-import {isAuth} from "../controllers/auth"
+
 
 const router = Router();
 

@@ -45,3 +45,28 @@ export const getRequests = async (req, res) =>{
 
 
 }
+
+export const addEvent = async (req, res) =>{
+    
+    const body = req.body
+    const db = await connect()
+
+    try {
+        
+        const events = await db.query("INSERT INTO eventos (Codigo_Escuelas, Nombre, Fecha_Ini, Fecha_Fin,Descripcion) VALUES (?,?,?,?,?,)",[ body.Codigo_Escuelas, body.Nombre, body.Fecha_Ini, body.Fecha_Fin, body.Descripcion])
+
+            res.json(events[0])
+
+
+    } catch (error) {
+
+        console.log(error)
+        res.json(error)
+
+    }finally {
+        db.destroy()
+    }
+
+
+}
+
