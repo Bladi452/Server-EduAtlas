@@ -18,7 +18,30 @@ export const idEvents = async (req, res) =>{
     }finally {
         db.destroy();
     }
-   
+    
         
+
+}
+
+export const getRequests = async (req, res) =>{
+    const {id} = req.params
+    const db = await connect()
+
+    try {
+        
+        const events = await db.query("SELECT * FROM usuario WHERE Codigo_Escuelas = ?",[id])
+
+            res.json(events[0]) 
+
+
+    } catch (error) {
+
+        console.log(error)
+        res.json(error)
+
+    }finally {
+        db.destroy()
+    }
+
 
 }
