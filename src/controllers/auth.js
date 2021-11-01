@@ -1,6 +1,6 @@
 import {connect} from '../database'
 import {encryptPassword, matchPassword} from '../middleware/helpers'
-import jwt from 'jsonwebtoken';
+
 
 
 
@@ -8,17 +8,18 @@ export const conectar = async(req, res) =>{
     const db = await connect()
 
     try {
+       
         const [rows] = await db.query("INSERT INTO cargo_seleccionar ( Id_Cargo, Matricula) VALUES (?,?)",[req.params.id_cargo, req.params.id])
       
         if(!rows){
-            db.end()
+          
             return res.status(404).json({
                 ok: false,
                 message: 'No se pudo conectar'  
             })
         
         } else{
-            db.end()
+           
             return res.status(200).json({
                 ok: true,
                 message: 'Se conecto correctamente'
@@ -26,13 +27,15 @@ export const conectar = async(req, res) =>{
              
             }    
     } catch (error) {
-        db.end()
+        
         console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'Error inesperado' 
         })
        
+    }finally{
+        db.end()
     }
      
 
@@ -43,14 +46,17 @@ export const getMat = async (req, res) => {
 
     const db = await connect()
     try {
+
         const [rows] = await db.query('SELECT Matricula FROM usuario ORDER by Matricula DESC LIMIT 1;')
    
        console.log(rows)
          res.json(rows)
-db.end()         
+       
     } catch (error) {
         console.log(error)
-        db.end();
+       
+    }finally{
+        db.end()
     }
 }
 
@@ -58,6 +64,7 @@ export const registrar = async (req, res) =>{
     const db = await connect()
 
     try {
+      
     const pass = await encryptPassword(req.body.password)
   const [rows] = await db.query("INSERT INTO usuario (Nombre, Apellido, Correo, Pass, Fecha_Nacimiento, Codigo_Escuelas) VALUES (?,?,?,?,?,?)",[
         req.body.Nombre,
@@ -94,21 +101,24 @@ export const registrar = async (req, res) =>{
 
 
 export const validar = async (req, res, next) =>{
+  
+    const Matricula = req.body.Matricula;
+    const contra = req.body.password
     const db = await connect()
-
     try {    
-        const Matricula = req.body.Matricula;
-        const contra = req.body.password
+       
+      
     
         const user = await db.query("SELECT usuario.Matricula, usuario.Codigo_Escuelas, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ?",[Matricula])
-        console.log(user)   
+        console.log(user[0])
+
         if(!user){
             return res.status(404).json({
                 ok: false,
                 message: 'No se encontro el usuario'
             })
         }
-        const match = await matchPassword(contra, user[0].Pass)
+        const match = await matchPassword(contra, user[0][0].Pass)
         if(!match){
             return res.status(404).json({
                 ok: false,
@@ -128,7 +138,7 @@ export const validar = async (req, res, next) =>{
         console.log(error)
         return res.status(500).json({
             ok: false,
-            message: 'Error inesperado'
+            message: 'No existe el usuario'
         })
     }
 

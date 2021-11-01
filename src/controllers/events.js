@@ -1,11 +1,12 @@
 import {connect} from "../database";
 
 export const idEvents = async (req, res) =>{
-    const db = await connect();
+  const {id} = req.params;
+  const db = await connect();
     try {
-
+    
     const [rows] = await db.query('SELECT * FROM eventos WHERE Codigo_Escuelas = ?',[
-        req.params.id
+        id
     ]);
     res.json(rows);
     } catch (error) {
@@ -14,8 +15,10 @@ export const idEvents = async (req, res) =>{
             message: 'Error al obtener los eventos',
             error
         });
+    }finally {
+        db.destroy();
     }
-db.end()    
+   
         
 
 }
