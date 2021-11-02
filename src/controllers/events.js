@@ -8,6 +8,7 @@ export const idEvents = async (req, res) =>{
     const [rows] = await db.query('SELECT * FROM eventos WHERE Codigo_Escuelas = ?',[
         id
     ]);
+    console.log(rows)
     res.json(rows);
     } catch (error) {
         console.log(error);
@@ -72,4 +73,3 @@ export const addEvent = async (req, res) =>{
 
 
 }
-
