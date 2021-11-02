@@ -110,9 +110,9 @@ export const validar = async (req, res, next) =>{
       
     
         const user = await db.query("SELECT usuario.Matricula, usuario.Codigo_Escuelas, usuario.Pass, cargo_seleccionar.Id_Cargo_Seleccionar, cargo.Nivel FROM cargo_seleccionar INNER JOIN cargo ON cargo_seleccionar.Id_Cargo = cargo.Id_Cargo INNER JOIN usuario ON cargo_seleccionar.Matricula = usuario.Matricula WHERE usuario.Matricula = ?",[Matricula])
-        console.log(user[0])
+        
 
-        if(!user){
+        if(!user[0][0]){
             return res.status(404).json({
                 ok: false,
                 message: 'No se encontro el usuario'
@@ -138,7 +138,7 @@ export const validar = async (req, res, next) =>{
         console.log(error)
         return res.status(500).json({
             ok: false,
-            message: 'No existe el usuario'
+            message: 'Error inesperado'
         })
     }
 
