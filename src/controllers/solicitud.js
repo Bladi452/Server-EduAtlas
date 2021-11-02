@@ -52,7 +52,7 @@ export const getSolid = async (req, res) =>{
     try {
     
 
-      const pass = await db.query("UPDATE `solicitud` SET `Estatus` = 'Aprobado' WHERE `solicitud`.`Id_Solicitud` = ?;",[
+      const [pass] = await db.query("UPDATE `solicitud` SET `Estatus` = 'Aprobado' WHERE `solicitud`.`Id_Solicitud` = ?;",[
          id
        ]);
 

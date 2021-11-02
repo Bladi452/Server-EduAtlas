@@ -53,7 +53,8 @@ export const addEvent = async (req, res) =>{
 
     try {
         
-        const events = await db.query("INSERT INTO eventos ( Nombre, Fecha_Ini, Descripcion, Codigo_Escuelas) VALUES ( ?, ?, ?, ?)",[ body.Nombre, body.Fecha_Ini, body.Descripcion,  body.Codigo_Escuelas])                 
+        const events = await db.query("INSERT INTO eventos ( Nombre, Fecha_Ini, Descripcion, Codigo_Escuelas) VALUES ( ?, ?, ?, ?)",[ body.Nombre, body.Fecha_Ini, body.Descripcion,  body.Codigo_Escuelas])
+                                     
             
 
 
