@@ -31,7 +31,7 @@ export const getRequests = async (req, res) =>{
         
         const events = await db.query("SELECT * FROM usuario WHERE Codigo_Escuelas = ?",[id])
 
-            res.json(events[0]) 
+            res.json(events[0].length) 
 
 
     } catch (error) {
@@ -53,7 +53,7 @@ export const addEvent = async (req, res) =>{
 
     try {
         
-        const events = await db.query("INSERT INTO eventos ( Nombre, Fecha_Ini, Fecha_Fin, Descripcion, Codigo_Escuelas) VALUES ( '?', '?', '?', '?', '?'),"[ body.Codigo_Escuelas, body.Nombre, body.Fecha_Ini, body.Fecha_Fin, body.Descripcion])                 
+        const events = await db.query("INSERT INTO eventos ( Nombre, Fecha_Ini, Descripcion, Codigo_Escuelas) VALUES ( ?, ?, ?, ?)",[ body.Nombre, body.Fecha_Ini, body.Descripcion,  body.Codigo_Escuelas])                 
             
 
 
